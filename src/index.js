@@ -5,6 +5,8 @@ import App from './App';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
+console.log(process.env);
+
 // 2. Extend the theme to include custom colors, fonts, etc
 const colors = {
   brand: {
