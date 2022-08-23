@@ -1,12 +1,15 @@
-import { Box } from '@chakra-ui/react';
+import React from 'react';
 import './App.css';
-import Video from './components/Video';
+import { VideoList } from 'pages/VideoList';
+import SearchBox from 'components/SearchBox';
+import { Box } from '@mui/material';
 
 function App() {
   return (
     <div className='App'>
-      <Box bg='grey' w='100%' h='100vh' p={4} color='white'>
-        <Video />
+      <Box>
+        <SearchBox />
+        <VideoList />
       </Box>
     </div>
   );

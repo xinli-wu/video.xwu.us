@@ -1,14 +1,15 @@
-import { useRef, useEffect } from 'react';
+import React from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 import '@videojs/themes/dist/sea/index.css';
 
 export const VideoJS = (props) => {
-  const videoRef = useRef(null);
-  const playerRef = useRef(null);
+  const videoRef = React.useRef(null);
+  const playerRef = React.useRef(null);
   const { options, onReady } = props;
 
-  useEffect(() => {
+  React.useEffect(() => {
+
     // Make sure Video.js player is only initialized once
     if (!playerRef.current) {
       const videoElement = videoRef.current;
@@ -16,19 +17,22 @@ export const VideoJS = (props) => {
       if (!videoElement) return;
 
       const player = playerRef.current = videojs(videoElement, options, () => {
-        player.log('player is ready');
+        videojs.log('player is ready');
         onReady && onReady(player);
       });
 
-      // You can update player in the `else` block here, for example:
+      // You could update an existing player in the `else` block here
+      // on prop change, for example:
     } else {
+      // const player = playerRef.current;
+
       // player.autoplay(options.autoplay);
       // player.src(options.sources);
     }
-  }, [options, videoRef, onReady]);
+  }, [options, videoRef]);
 
   // Dispose the Video.js player when the functional component unmounts
-  useEffect(() => {
+  React.useEffect(() => {
     const player = playerRef.current;
 
     return () => {
@@ -41,7 +45,7 @@ export const VideoJS = (props) => {
 
   return (
     <div data-vjs-player>
-      <video ref={videoRef} className='video-js vjs-theme-sea vjs-big-play-centered' />
+      <video ref={videoRef} className='video-js vjs-big-play-centered' />
     </div>
   );
 };
