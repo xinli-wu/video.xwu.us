@@ -1,18 +1,18 @@
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { NativeVideo } from 'components/NativeVideo';
 import React from 'react';
 
-export const VideoList = () => {
-
-  const videos = ['vX6AaW65QJ8', 'vX6AaW65QJ8'];
+export const VideoList = ({ videos }) => {
 
   return (
-    <div>
-      <Box>
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 1, sm: 8, md: 12 }}>
         {videos.map((x, i) => (
-          <NativeVideo key={i} videoId={x} />
+          <Grid item xs={1} sm={4} md={4} key={i}>
+            <NativeVideo video={x} />
+          </Grid>
         ))}
-      </Box>
-    </div>
+      </Grid>
+    </Box>
   );
 };
