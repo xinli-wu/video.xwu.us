@@ -9,7 +9,7 @@ const SERVER_URL = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_AP
 
 export const NativeVideo = ({ video }) => {
 
-  const thumbnailUrl = `${SERVER_URL}/thumbnail/${encodeURIComponent(video.snippet.thumbnails.medium.url)}`;
+  const thumbnailUrl = `${SERVER_URL}/thumbnail?url=${encodeURIComponent(video.snippet.thumbnails.medium.url)}`;
 
   const [format, setFormat] = React.useState();
 
