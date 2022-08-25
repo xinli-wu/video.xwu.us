@@ -1,4 +1,4 @@
-import { Box, Stack } from '@mui/material';
+import { Box, LinearProgress, Stack } from '@mui/material';
 import axios from 'axios';
 import { NativeVideo } from 'components/NativeVideo';
 import SearchBox from 'components/SearchBox';
@@ -12,26 +12,29 @@ export default function Watch() {
   const [searchParams] = useSearchParams();
   const v = searchParams.get('v');
 
-  const [info, setInfo] = React.useState();
+  const [info, setInfo] = React.useState({ data: undefined, loading: false });
 
   React.useEffect(() => {
     (async () => {
-      const res = await axios(`${SERVER_URL}/info`, { params: { v } });
-      setInfo(res.data);
+      setInfo({ data: undefined, loading: true });
+      const { data } = await axios(`${SERVER_URL}/info`, { params: { v } });
+      setInfo({ data, loading: false });
     })();
-  }, [info, v]);
+  }, [v]);
 
   return (
     <Stack direction='column'>
-      <div style={{ height: 4 }}></div>
+      <div style={{ height: 4 }}>
+        {info.loading && <LinearProgress />}
+      </div>
       <SearchBox />
       <Box sx={{ flexGrow: 1, m: 2 }}>
-        {info?.error && <p>Video is not available to play</p>}
-        {info?.videoDetails &&
+        {info?.data?.error && <p>Video is not available to play</p>}
+        {info?.data?.videoDetails &&
           <NativeVideo
             v={v}
-            title={info.videoDetails.title}
-            poster={info.videoDetails.thumbnails[2].url}
+            title={info.data.videoDetails.title}
+            poster={info.data.videoDetails.thumbnails[2].url}
           />
         }
       </Box>

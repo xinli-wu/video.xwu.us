@@ -17,10 +17,8 @@ export default function SearchResult() {
   React.useEffect(() => {
     (async () => {
       setVideos({ data: [], loading: true });
-      const res = await axios(`${SERVER_URL}/search`, { params: { q } });
-      setVideos({
-        data: res.data, loading: false
-      });
+      const { data } = await axios(`${SERVER_URL}/search`, { params: { q } });
+      setVideos({ data, loading: false });
     })();
   }, [q]);
 
