@@ -1,4 +1,4 @@
-import { Grid, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import axios from 'axios';
 import { NativeVideo } from 'components/NativeVideo';
 import SearchBox from 'components/SearchBox';
@@ -27,19 +27,16 @@ export default function Watch() {
     <Stack direction='column'>
       <div style={{ height: 4 }}></div>
       <SearchBox />
-
-      <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 1, sm: 1, md: 1 }}>
-        <Grid item xs={1} sm={4} md={4} >
-          {info?.error && <p>Video is not available to play</p>}
-          {info?.videoDetails &&
-            <NativeVideo
-              v={v}
-              title={info.videoDetails.title}
-              poster={info.videoDetails.thumbnails[2].url}
-            />
-          }
-        </Grid>
-      </Grid>
+      <Box sx={{ flexGrow: 1, m: 2 }}>
+        {info?.error && <p>Video is not available to play</p>}
+        {info?.videoDetails &&
+          <NativeVideo
+            v={v}
+            title={info.videoDetails.title}
+            poster={info.videoDetails.thumbnails[2].url}
+          />
+        }
+      </Box>
     </Stack>
   );
 }

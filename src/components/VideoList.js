@@ -8,7 +8,7 @@ const SERVER_URL = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_AP
 export const VideoList = ({ videos }) => {
 
   return (
-    <Box sx={{ flexGrow: 1, m: 1 }}>
+    <Box sx={{ flexGrow: 1, m: 2 }}>
       <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 1, sm: 8, md: 12 }}>
         {videos.map((video, i) => {
           const { id, snippet } = video;
