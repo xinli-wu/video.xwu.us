@@ -3,6 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import { createSearchParams, matchPath, useLocation, useNavigate } from 'react-router-dom';
 import './Video.css';
+import { decode } from 'html-entities';
 
 window.HELP_IMPROVE_VIDEOJS = false;
 
@@ -42,7 +43,7 @@ export const NativeVideo = ({ v, title, poster }) => {
           </video>
         )}
         <Box onClick={onTitleClick} sx={{ cursor: 'pointer', p: 1 }}>
-          {title && <Typography variant='subtitle2' textAlign="left" >{title}</Typography>}
+          {title && <Typography variant='subtitle2' textAlign="left" >{decode(title)}</Typography>}
         </Box>
       </Paper>
     </Box>
