@@ -15,12 +15,10 @@ export default function Watch() {
   const [info, setInfo] = React.useState();
 
   React.useEffect(() => {
-    if (info !== v) {
-      (async () => {
-        const res = await axios(`${SERVER_URL}/info`, { params: { v } });
-        setInfo(res.data);
-      })();
-    }
+    (async () => {
+      const res = await axios(`${SERVER_URL}/info`, { params: { v } });
+      setInfo(res.data);
+    })();
   }, [info, v]);
 
   return (
