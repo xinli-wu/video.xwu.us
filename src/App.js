@@ -1,20 +1,19 @@
+import Home from 'pages/Home';
+import SearchResult from 'pages/SearchResult';
+import Watch from 'pages/Watch';
 import React from 'react';
+import { Route, Routes } from "react-router-dom";
 import './App.css';
-import { VideoList } from 'pages/VideoList';
-import SearchBox from 'components/SearchBox';
-import { Box, LinearProgress } from '@mui/material';
 
 function App() {
 
-  const [videos, setVideos] = React.useState({ data: [], loading: false });
-
   return (
     <div className='App'>
-      <Box>
-        {videos.loading && <LinearProgress />}
-        <SearchBox setVideos={setVideos} />
-        <VideoList videos={videos.data} />
-      </Box>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/search" element={<SearchResult />} />
+        <Route path="/watch" element={<Watch />} />
+      </Routes>
     </div>
   );
 }

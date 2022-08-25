@@ -5,7 +5,7 @@ import VideoJS from './VideoJS';
 
 window.HELP_IMPROVE_VIDEOJS = false;
 
-const SERVER_URL = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/video/yt`;
+const SERVER_URL = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/yt`;
 
 export default function Video({ videoId }) {
 
@@ -15,14 +15,14 @@ export default function Video({ videoId }) {
 
   React.useEffect(() => {
     (async () => {
-      const res = await axios(`${SERVER_URL}/info/${videoId}`);
+      const res = await axios(`${SERVER_URL}/info`, { params: { v: videoId } });
       setInfo(res.data);
     })();
   }, []);
 
   React.useEffect(() => {
     (async () => {
-      const res = await axios(`${SERVER_URL}/format/${videoId}`);
+      const res = await axios(`${SERVER_URL}/format`, { params: { v: videoId } });
       setFormat(res.data);
     })();
   }, []);

@@ -3,19 +3,17 @@ import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import { Paper } from '@mui/material';
 import * as React from 'react';
-import axios from 'axios';
+import { useNavigate, createSearchParams, useSearchParams } from 'react-router-dom';
 
-const SERVER_URL = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/yt`;
+export default function SearchBox() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-export default function SearchBox({ setVideos }) {
+  const [q, setQ] = React.useState(searchParams.get('q') || '');
 
-  const [q, setQ] = React.useState(``);
-
-  const onSearchButtonClick = async (e) => {
+  const onSearchButtonClick = (e) => {
     e.preventDefault();
-    setVideos({ data: [], loading: true });
-    const res = await axios(`${SERVER_URL}/search/${q}`);
-    setVideos({ data: res.data, loading: false });
+    navigate({ pathname: '/search', search: `?${createSearchParams({ q })}` });
   };
 
   const onInputChange = (e) => {
