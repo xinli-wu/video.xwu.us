@@ -32,9 +32,8 @@ export default function SearchBox() {
         inputProps={{ 'aria-label': 'search youtube videos' }}
         value={q}
         onChange={onInputChange}
-        disabled={q.length === 0}
       />
-      <IconButton type="submit" sx={{ p: '10px' }} aria-label="search" onClick={onSearchButtonClick}>
+      <IconButton type="submit" sx={{ p: '10px' }} aria-label="search" onClick={onSearchButtonClick} disabled={q.length === 0}>
         <SearchIcon />
       </IconButton>
     </Paper>
