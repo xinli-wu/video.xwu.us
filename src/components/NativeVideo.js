@@ -3,12 +3,15 @@ import axios from 'axios';
 import React from 'react';
 import './Video.css';
 import { decode } from 'html-entities';
+import { matchPath, createSearchParams, useNavigate, useLocation } from 'react-router-dom';
 
 window.HELP_IMPROVE_VIDEOJS = false;
 
 const SERVER_URL = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/yt`;
 
 export const NativeVideo = ({ v, title, poster }) => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [format, setFormat] = React.useState({ data: undefined, loading: false });
 
   React.useEffect(() => {
@@ -18,6 +21,14 @@ export const NativeVideo = ({ v, title, poster }) => {
       setFormat({ data, loading: false });
     })();
   }, [v]);
+
+  const onTitleClick = (e) => {
+    e.preventDefault();
+
+    if (!matchPath(pathname, '/watch')?.pathname) {
+      navigate({ pathname: '/watch', search: `?${createSearchParams({ v })}` });
+    }
+  };
 
   return (
     <Box>
@@ -31,7 +42,7 @@ export const NativeVideo = ({ v, title, poster }) => {
             Your browser does not support HTML video.
           </video>
         )}
-        <Box sx={{ cursor: 'pointer', p: 1 }}>
+        <Box onClick={onTitleClick} sx={{ cursor: 'pointer', p: 1 }}>
           {title && <Typography variant='subtitle2' textAlign="left" >{decode(title)}</Typography>}
         </Box>
       </Paper>

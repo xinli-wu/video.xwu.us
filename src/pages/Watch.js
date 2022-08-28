@@ -19,6 +19,9 @@ export default function Watch() {
       setInfo({ data: undefined, loading: true });
       const { data } = await axios(`${SERVER_URL}/info`, { params: { v } });
       setInfo({ data, loading: false });
+
+      document.title = data.videoDetails.title;
+
     })();
   }, [v]);
 
