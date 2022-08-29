@@ -6,10 +6,9 @@ import SearchResult from 'pages/SearchResult';
 import Watch from 'pages/Watch';
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
-import ColorModeSwitch from 'components/ColorModeSwitch';
 import { ColorModeContext } from 'contexts/utilContext';
 import './App.css';
-import BackBtn from 'components/BackBtn';
+import TopBar from 'components/TopBar';
 
 function App() {
 
@@ -43,13 +42,12 @@ function App() {
       <ThemeProvider theme={theme}>
         <ColorModeContext.Provider value={colorMode}>
           <CssBaseline />
-          <BackBtn />
+          <TopBar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/search" element={<SearchResult />} />
             <Route path="/watch" element={<Watch />} />
           </Routes>
-          <ColorModeSwitch />
         </ColorModeContext.Provider>
       </ThemeProvider>
     </div>
