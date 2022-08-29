@@ -58,6 +58,10 @@ export default function Video({ v, title, poster }) {
     player.on('dispose', () => {
       player.log('player will dispose');
     });
+
+    player.on('play', () => {
+      document.title = title;
+    });
   };
 
   return (
