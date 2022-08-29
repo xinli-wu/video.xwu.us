@@ -1,6 +1,5 @@
 import { Box, LinearProgress, Paper, Typography } from '@mui/material';
 import axios from 'axios';
-import { decode } from 'html-entities';
 import React, { useRef } from 'react';
 import { useNavigate, useLocation, matchPath, createSearchParams } from 'react-router-dom';
 import './Video.css';
@@ -76,7 +75,7 @@ export default function Video({ v, title, poster }) {
           </div>
         )}
         <Box onClick={onTitleClick} sx={{ cursor: 'pointer', p: 1 }}>
-          {title && <Typography variant='subtitle2' textAlign="left" >{decode(title)}</Typography>}
+          {title && <Typography variant='subtitle2' textAlign="left" >{title}</Typography>}
         </Box>
       </Paper>
     </Box>

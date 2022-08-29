@@ -2,6 +2,7 @@ import { Box, LinearProgress, Stack } from '@mui/material';
 import axios from 'axios';
 import SearchBox from 'components/SearchBox';
 import Video from 'components/Video';
+import { decode } from 'html-entities';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -36,7 +37,7 @@ export default function Watch() {
         {info?.data?.videoDetails &&
           <Video
             v={v}
-            title={info.data.videoDetails.title}
+            title={decode(info.data.videoDetails.title)}
             poster={info.data.videoDetails.thumbnails[2].url}
           />
         }

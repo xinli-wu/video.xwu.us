@@ -1,4 +1,5 @@
 import { Box, Grid } from '@mui/material';
+import { decode } from 'html-entities';
 import React from 'react';
 import Video from './Video';
 
@@ -16,7 +17,7 @@ export const VideoList = ({ videos }) => {
 
           return (
             <Grid item xs={1} sm={4} md={4} key={i}>
-              <Video v={id.videoId} title={snippet.title} poster={thumbnailUrl} />
+              <Video v={id.videoId} title={decode(snippet.title)} poster={thumbnailUrl} />
             </Grid>
           );
         })}
