@@ -29,12 +29,13 @@ export default function Video({ v, title, poster }) {
         sources: [{
           src: `${SERVER_URL}/watch?v=${v}`,
           type: data?.mimeType
-        }]
+        }],
+        poster
       });
 
       setFormat({ data, loading: false });
     })();
-  }, [v]);
+  }, [v, poster]);
 
   const onTitleClick = (e) => {
     e.preventDefault();
