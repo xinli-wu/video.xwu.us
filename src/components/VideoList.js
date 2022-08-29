@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
-import { NativeVideo } from 'components/NativeVideo';
 import React from 'react';
+import Video from './Video';
 
 const SERVER_URL = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/yt`;
 
@@ -16,7 +16,7 @@ export const VideoList = ({ videos }) => {
 
           return (
             <Grid item xs={1} sm={4} md={4} key={i}>
-              <NativeVideo v={id.videoId} title={snippet.title} poster={thumbnailUrl} />
+              <Video v={id.videoId} title={snippet.title} poster={thumbnailUrl} />
             </Grid>
           );
         })}

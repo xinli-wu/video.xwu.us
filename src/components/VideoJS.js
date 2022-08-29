@@ -1,12 +1,11 @@
 import React from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
-import '@videojs/themes/dist/sea/index.css';
+import '@videojs/themes/dist/forest/index.css';
 
-export const VideoJS = (props) => {
+export const VideoJS = ({ options, onReady }) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
-  const { options, onReady } = props;
 
   React.useEffect(() => {
 
@@ -17,7 +16,7 @@ export const VideoJS = (props) => {
       if (!videoElement) return;
 
       const player = playerRef.current = videojs(videoElement, options, () => {
-        videojs.log('player is ready');
+        // videojs.log('player is ready');
         onReady && onReady(player);
       });
 
@@ -29,7 +28,7 @@ export const VideoJS = (props) => {
       // player.autoplay(options.autoplay);
       // player.src(options.sources);
     }
-  }, [options, videoRef]);
+  }, [options, videoRef, onReady]);
 
   // Dispose the Video.js player when the functional component unmounts
   React.useEffect(() => {
@@ -45,7 +44,7 @@ export const VideoJS = (props) => {
 
   return (
     <div data-vjs-player>
-      <video ref={videoRef} className='video-js vjs-big-play-centered' />
+      <video ref={videoRef} className='video-js vjs-theme-forest' />
     </div>
   );
 };

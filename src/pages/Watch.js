@@ -1,7 +1,7 @@
 import { Box, LinearProgress, Stack } from '@mui/material';
 import axios from 'axios';
-import { NativeVideo } from 'components/NativeVideo';
 import SearchBox from 'components/SearchBox';
+import Video from 'components/Video';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 
@@ -34,7 +34,7 @@ export default function Watch() {
       <Box sx={{ flexGrow: 1, m: 2 }}>
         {info?.data?.error && <p>Video is not available to play</p>}
         {info?.data?.videoDetails &&
-          <NativeVideo
+          <Video
             v={v}
             title={info.data.videoDetails.title}
             poster={info.data.videoDetails.thumbnails[2].url}
