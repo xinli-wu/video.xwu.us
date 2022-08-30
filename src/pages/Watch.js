@@ -1,13 +1,12 @@
-import { Box, LinearProgress, Stack } from '@mui/material';
+import { Box, Stack } from '@mui/material';
 import axios from 'axios';
+import LoadingProgress from 'components/LoadingProgress';
 import SearchBox from 'components/SearchBox';
 import Video from 'components/Video';
+import { SERVER_URL } from 'const';
 import { decode } from 'html-entities';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-
-const SERVER_URL = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/yt`;
-
 
 export default function Watch() {
   const [searchParams] = useSearchParams();
@@ -28,9 +27,7 @@ export default function Watch() {
 
   return (
     <Stack direction='column'>
-      <div style={{ height: 4 }}>
-        {info.loading && <LinearProgress />}
-      </div>
+      <LoadingProgress show={info.loading} />
       <SearchBox />
       <Box sx={{ flexGrow: 1, m: 2 }}>
         {info?.data?.error && <p>Video is not available to play</p>}

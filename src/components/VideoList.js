@@ -1,9 +1,9 @@
 import { Box, Grid } from '@mui/material';
+import { SERVER_URL } from 'const';
 import { decode } from 'html-entities';
 import React from 'react';
 import Video from './Video';
 
-const SERVER_URL = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/yt`;
 
 
 export const VideoList = ({ videos }) => {

@@ -1,13 +1,14 @@
-import { Box, LinearProgress, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import axios from 'axios';
 import React from 'react';
 import './Video.css';
 import { decode } from 'html-entities';
 import { matchPath, createSearchParams, useNavigate, useLocation } from 'react-router-dom';
+import LoadingProgress from './LoadingProgress';
+import { SERVER_URL } from 'const';
 
 window.HELP_IMPROVE_VIDEOJS = false;
 
-const SERVER_URL = `${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}/yt`;
 
 export const NativeVideo = ({ v, title, poster }) => {
   const navigate = useNavigate();
@@ -32,9 +33,7 @@ export const NativeVideo = ({ v, title, poster }) => {
 
   return (
     <Box>
-      <Box sx={{ height: 4 }}>
-        {format.loading && <LinearProgress />}
-      </Box>
+      <LoadingProgress show={format.loading} />
       <Paper sx={{ alignItems: 'center', minHeight: 220, width: '100%', borderRadius: '4px 4px 0px 0px', overflow: 'hidden' }} >
         {format.data && (
           <video style={{ width: '100%', borderRadius: '4px 4px 0px 0px' }} controls poster={poster} preload="none" controlsList="nodownload">
