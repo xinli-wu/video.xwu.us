@@ -98,9 +98,11 @@ export default function Video({ v, title, poster }) {
             cursor: 'pointer'
             , p: 1
             , position: 'absolute'
-            , width: '100%'
+            , height: 80
             , bottom: 0
             , left: 0
+            , display: 'flex'
+            , alignItems: 'center'
           }}>
             {title && <Typography variant='subtitle2' textAlign="left" >{title}</Typography>}
           </Box>
