@@ -1,6 +1,6 @@
 import { Box, Paper, Typography } from '@mui/material';
 import axios from 'axios';
-import { SERVER_URL } from 'const';
+import { SERVER_URL } from 'config';
 import useWindowSize from 'hooks/useWindowSize';
 import React, { useRef } from 'react';
 import { useNavigate, useLocation, matchPath, createSearchParams } from 'react-router-dom';

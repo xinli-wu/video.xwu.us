@@ -3,7 +3,7 @@ import axios from 'axios';
 import LoadingProgress from 'components/LoadingProgress';
 import SearchBox from 'components/SearchBox';
 import Video from 'components/Video';
-import { SERVER_URL } from 'const';
+import { SERVER_URL } from 'config';
 import { decode } from 'html-entities';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
