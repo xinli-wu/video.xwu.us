@@ -1,4 +1,4 @@
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper, Stack, Typography } from '@mui/material';
 import axios from 'axios';
 import useWindowSize from 'hooks/useWindowSize';
 import React, { useRef } from 'react';
@@ -78,32 +78,34 @@ export default function Video({ v, title, poster }) {
       <Paper
         sx={{
           alignItems: 'center'
-          , minHeight: playerWrapperH ? playerWrapperH + 64 : 260
+          , minHeight: playerWrapperH ? playerWrapperH + 80 : 260
           , width: '100%'
-          , borderRadius: '4px 4px 0px 0px'
+          , borderRadius: '4px 4px 4px 4px'
           , overflow: 'hidden'
           , position: 'relative'
         }}
       >
-        <Box ref={playerWrapperRef} className='player-wrapper'
-          sx={{
-            position: 'absolute'
+        <Stack >
+          <Box ref={playerWrapperRef} className='player-wrapper'
+            sx={{
+              position: 'absolute'
+              , width: '100%'
+            }}
+          >
+            {format.data && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
+          </Box>
+          <Box onClick={onTitleClick} sx={{
+            cursor: 'pointer'
+            , p: 1
+            , position: 'absolute'
             , width: '100%'
-          }}
-        >
-          {format.data && <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />}
-        </Box>
+            , bottom: 0
+            , left: 0
+          }}>
+            {title && <Typography variant='subtitle2' textAlign="left" >{title}</Typography>}
+          </Box>
+        </Stack>
         <LoadingProgress show={format.loading} />
-        <Box onClick={onTitleClick} sx={{
-          cursor: 'pointer'
-          , p: 1
-          , position: 'absolute'
-          , width: '100%'
-          , bottom: 0
-          , left: 0
-        }}>
-          {title && <Typography variant='subtitle2' textAlign="left" >{title}</Typography>}
-        </Box>
       </Paper >
     </Box >
   );
