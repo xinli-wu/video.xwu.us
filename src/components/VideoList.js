@@ -1,5 +1,5 @@
 import { Box, Grid } from '@mui/material';
-import { SERVER_URL } from 'config';
+import { SERVER_URL } from '../config';
 import { decode } from 'html-entities';
 import React from 'react';
 import Video from './Video';

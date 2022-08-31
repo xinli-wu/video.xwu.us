@@ -1,9 +1,9 @@
 import { Box, Paper, Typography } from '@mui/material';
 import axios from 'axios';
-import { SERVER_URL } from 'config';
 import useWindowSize from 'hooks/useWindowSize';
 import React, { useRef } from 'react';
 import { useNavigate, useLocation, matchPath, createSearchParams } from 'react-router-dom';
+import { SERVER_URL } from '../config';
 import LoadingProgress from './LoadingProgress';
 import './Video.css';
 import VideoJS from './VideoJS';

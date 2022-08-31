@@ -2,7 +2,7 @@ import { Stack } from '@mui/system';
 import axios from 'axios';
 import LoadingProgress from 'components/LoadingProgress';
 import SearchBox from 'components/SearchBox';
-import { SERVER_URL } from 'config';
+import { SERVER_URL } from '../config';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { VideoList } from '../components/VideoList';

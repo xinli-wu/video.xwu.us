@@ -5,7 +5,7 @@ import './Video.css';
 import { decode } from 'html-entities';
 import { matchPath, createSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import LoadingProgress from './LoadingProgress';
-import { SERVER_URL } from 'config';
+import { SERVER_URL } from '../config';
 
 window.HELP_IMPROVE_VIDEOJS = false;
 
