@@ -1,7 +1,7 @@
 import React from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
-import '@videojs/themes/dist/fantasy/index.css';
+import '@videojs/themes/dist/forest/index.css';
 
 export const VideoJS = ({ options, onReady }) => {
   const videoRef = React.useRef(null);
@@ -44,7 +44,7 @@ export const VideoJS = ({ options, onReady }) => {
 
   return (
     <div data-vjs-player>
-      <video ref={videoRef} className='video-js vjs-theme-fantasy' />
+      <video ref={videoRef} className='video-js vjs-theme-forest' />
     </div>
   );
 };

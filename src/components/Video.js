@@ -74,7 +74,7 @@ export default function Video({ v, title, poster }) {
   };
 
   return (
-    <Box>
+    <Box sx={{ m: 2 }}>
       <Paper
         sx={{
           alignItems: 'center'

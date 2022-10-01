@@ -6,6 +6,7 @@ import { SERVER_URL } from '../config';
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { VideoList } from '../components/VideoList';
+import { Box } from '@mui/material';
 
 
 export default function SearchResult() {
@@ -26,8 +27,14 @@ export default function SearchResult() {
   return (
     <Stack direction='column'>
       <LoadingProgress show={videos.loading} />
-      <SearchBox />
-      <VideoList videos={videos.data} />
+      <Box sx={{ width: '100%', height: '100%', position: 'relative' }}>
+        <Box sx={{ width: '100%', position: 'absolute', top: 0, zIndex: 10 }}>
+          <SearchBox />
+        </Box>
+      </Box>
+      <Box sx={{ width: '100%', position: 'absolute', top: 120, }}>
+        <VideoList videos={videos.data} />
+      </Box>
     </Stack>
   );
 }

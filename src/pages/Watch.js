@@ -28,16 +28,20 @@ export default function Watch() {
   return (
     <Stack direction='column'>
       <LoadingProgress show={info.loading} />
-      <SearchBox />
-      <Box sx={{ flexGrow: 1, m: 2 }}>
-        {info?.data?.error && <p>Video is not available to play</p>}
-        {info?.data?.videoDetails &&
-          <Video
-            v={v}
-            title={decode(info.data.videoDetails.title)}
-            poster={info.data.videoDetails.thumbnails[2].url}
-          />
-        }
+      <Box sx={{ width: '100%', height: '100%', position: 'relative' }}>
+        <Box sx={{ width: '100%', position: 'absolute', top: 0, zIndex: 10 }}>
+          <SearchBox />
+        </Box>
+        <Box sx={{ width: '100%', position: 'absolute', top: 80, }}>
+          {info?.data?.error && <p>Video is not available to play</p>}
+          {info?.data?.videoDetails &&
+            <Video
+              v={v}
+              title={decode(info.data.videoDetails.title)}
+              poster={info.data.videoDetails.thumbnails[2].url}
+            />
+          }
+        </Box>
       </Box>
     </Stack>
   );

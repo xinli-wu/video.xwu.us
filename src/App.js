@@ -13,7 +13,6 @@ import TopBar from 'components/TopBar';
 function App() {
 
   const preferedMode = useMediaQuery('(prefers-color-scheme: dark)') ? 'dark' : 'light';
-
   const [mode, setMode] = React.useState(preferedMode);
 
   React.useEffect(() => setMode(preferedMode), [preferedMode]);
