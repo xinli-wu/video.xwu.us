@@ -4,6 +4,8 @@ import SearchBox from 'components/SearchBox';
 import React from 'react';
 
 export default function Home() {
+  document.title = 'uTube';
+
   return (
     <Stack direction='column' sx={{ height: '100%' }}>
       <LoadingProgress show={false} />
@@ -12,7 +14,6 @@ export default function Home() {
           <SearchBox />
         </Box>
       </Box>
-
     </Stack>
   );
 }
