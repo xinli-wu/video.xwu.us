@@ -1,13 +1,13 @@
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import SearchIcon from '@mui/icons-material/Search';
+import { Box, Divider, Drawer, List, ListItem, ListItemText, Paper, Stack, useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
-import { Box, Divider, Drawer, List, ListItem, ListItemText, Paper, Stack, useTheme } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate, createSearchParams, useSearchParams } from 'react-router-dom';
 import dayjs from 'dayjs';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import VoiceInput from './VoiceInput';
+import React, { useRef, useState } from 'react';
+import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import Siriwave from 'react-siriwave';
+import VoiceInput from './VoiceInput';
 
 export default function SearchBox() {
   const navigate = useNavigate();
@@ -25,19 +25,22 @@ export default function SearchBox() {
     }
   };
 
-  useEffect(() => {
-    localStorage.qHistory = JSON.stringify(suggestions);
-  }, [suggestions]);
+  // useEffect(() => {
+  //   console.log('localStorage.qHistory', suggestions);
+  //   localStorage.qHistory = JSON.stringify(suggestions);
+  // }, [suggestions]);
 
   const updateSuggestions = (q) => {
     setSuggestions(prev => ([...prev.filter(x => x.q !== q), { q, t: dayjs().unix() }]));
+    // localStorage.qHistory = JSON.stringify(suggestions);
+    localStorage.setItem('qHistory', JSON.stringify(suggestions));
+    navigate({ pathname: '/search', search: `?${createSearchParams({ q })}` }, { state: { q } });
   };
 
   const onQSubmit = (e) => {
     e.preventDefault();
     updateSuggestions(q);
     setSuggestOpen(false);
-    navigate({ pathname: '/search', search: `?${createSearchParams({ q })}` });
   };
 
   const onInputChange = (e) => {

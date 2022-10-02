@@ -1,19 +1,23 @@
+import { Box } from '@mui/material';
 import { Stack } from '@mui/system';
 import axios from 'axios';
 import LoadingProgress from 'components/LoadingProgress';
 import SearchBox from 'components/SearchBox';
-import { SERVER_URL } from '../config';
+import dayjs from 'dayjs';
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { VideoList } from '../components/VideoList';
-import { Box } from '@mui/material';
+import { SERVER_URL } from '../config';
 
 
 export default function SearchResult() {
   const [videos, setVideos] = React.useState({ data: [], loading: false });
   const [searchParams] = useSearchParams();
+  const location = useLocation();
 
-  const q = searchParams.get('q');
+  const q = location.state['q'] || searchParams.get('q');
+  const qHistory = JSON.parse(localStorage.qHistory || '[]');
+  localStorage.qHistory = JSON.stringify([...qHistory.filter(x => x.q !== q), { q, t: dayjs().unix() }]);
 
   React.useEffect(() => {
     (async () => {
