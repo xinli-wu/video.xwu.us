@@ -1,10 +1,13 @@
 import { Box } from '@mui/material';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import BackBtn from './BackBtn';
 import ColorModeSwitch from './ColorModeSwitch';
 import Logo from './Logo';
 
 export default function TopBar() {
+  const { pathname } = useLocation();
+
   return (
     <Box
       sx={{
@@ -17,7 +20,7 @@ export default function TopBar() {
       }}
     >
       <BackBtn />
-      <Logo />
+      {pathname !== '/' && <Logo />}
       <ColorModeSwitch />
     </Box>
   );

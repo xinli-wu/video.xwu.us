@@ -10,11 +10,6 @@ import LogoTubeDarkV from '../assets/images/logo/logoTubeDarkV.png';
 import LogoTubeLightV from '../assets/images/logo/logoTubeLightV.png';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-function getFaviconEl() {
-  return document.getElementById("favicon");
-}
-
-
 export default function Logo() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -33,7 +28,7 @@ export default function Logo() {
     'light': [LogoHubLightV, LogoTubeLightV]
   };
 
-  const favicon = getFaviconEl();
+  const favicon = document.getElementById("favicon");
   if (favicon) favicon.href = logoV[mode][altLogo];
 
   const onLogoClick = (e) => {
@@ -41,6 +36,6 @@ export default function Logo() {
   };
 
   return (
-    <img src={logoH[mode][altLogo]} alt='Logo' onClick={onLogoClick} style={{ cursor: 'pointer' }} />
+    <img src={logoH[mode][altLogo]} alt='Logo' onClick={onLogoClick} style={{ cursor: 'pointer', height: '100%' }} />
   );
 }

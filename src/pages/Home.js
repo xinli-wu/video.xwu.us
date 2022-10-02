@@ -2,18 +2,22 @@ import { Box, Stack } from '@mui/material';
 import LoadingProgress from 'components/LoadingProgress';
 import SearchBox from 'components/SearchBox';
 import React from 'react';
+import Logo from '../components/Logo';
 
 export default function Home() {
   document.title = 'uTube';
 
   return (
-    <Stack direction='column' sx={{ height: '100%' }}>
+    <>
       <LoadingProgress show={false} />
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Box sx={{ top: '20%', position: 'absolute', width: '100%', maxWidth: 768 }}>
+      <Stack sx={{ mt: 10, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Box sx={{ height: 90 }}>
+          <Logo />
+        </Box>
+        <Box sx={{ mt: 4, width: '90%', maxWidth: 768 }}>
           <SearchBox />
         </Box>
-      </Box>
-    </Stack>
+      </Stack>
+    </>
   );
 }
