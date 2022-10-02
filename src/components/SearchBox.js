@@ -106,7 +106,6 @@ export default function SearchBox() {
         <Siriwave
           color={theme.palette.primary.main}
           cover={true}
-          height={512}
           speed={0.075}
           ratio={1}
           amplitude={0.75}

@@ -24,12 +24,12 @@ export default function VoiceInput({ setQ, voiceInput, setVoiceInput, setFocus }
   };
 
   recognition.onresult = (event) => {
-    let interim_transcript = '', final_transcript = '';
+    let final_transcript = '';//, interim_transcript = '';
     for (let i = event.resultIndex; i < event.results.length; ++i) {
       if (event.results[i].isFinal) {
         final_transcript += event.results[i][0].transcript;
       } else {
-        interim_transcript += event.results[i][0].transcript;
+        // interim_transcript += event.results[i][0].transcript;
       }
     }
     setQ(final_transcript);
