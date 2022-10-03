@@ -114,7 +114,7 @@ export default function SearchBox() {
           cover={true}
           speed={0.075}
           ratio={1}
-          amplitude={1}
+          amplitude={0.5}
         />
       </Drawer>
     </Paper >
