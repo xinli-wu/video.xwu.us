@@ -1,13 +1,14 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Divider, Drawer, List, ListItem, ListItemText, Paper, Stack, useTheme } from '@mui/material';
+import { Box, Collapse, Divider, Drawer, List, ListItem, ListItemText, Paper, Stack, useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import dayjs from 'dayjs';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import Siriwave from 'react-siriwave';
 import VoiceInput from './VoiceInput';
+import { TransitionGroup } from 'react-transition-group';
 
 export default function SearchBox() {
   const navigate = useNavigate();
@@ -25,15 +26,13 @@ export default function SearchBox() {
     }
   };
 
-  // useEffect(() => {
-  //   console.log('localStorage.qHistory', suggestions);
-  //   localStorage.qHistory = JSON.stringify(suggestions);
-  // }, [suggestions]);
+
+  useEffect(() => {
+    localStorage.qHistory = JSON.stringify(suggestions);
+  }, [suggestions]);
 
   const updateSuggestions = (q) => {
     setSuggestions(prev => ([...prev.filter(x => x.q !== q), { q, t: dayjs().unix() }]));
-    // localStorage.qHistory = JSON.stringify(suggestions);
-    localStorage.setItem('qHistory', JSON.stringify(suggestions));
     navigate({ pathname: '/search', search: `?${createSearchParams({ q })}` }, { state: { q } });
   };
 
@@ -72,7 +71,9 @@ export default function SearchBox() {
   return (
     <Paper component="form" sx={{ m: 2 }} onSubmit={onQSubmit}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <VoiceInput setQ={setQ} voiceInput={voiceInput} setVoiceInput={setVoiceInput} setFocus={setFocus} />
+        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search" disabled={q.length === 0}>
+          <SearchIcon />
+        </IconButton>
         <InputBase
           ref={inputElement}
           sx={{ ml: 1 }}
@@ -84,36 +85,38 @@ export default function SearchBox() {
           onBlur={onSearchBoxBlur}
           onClick={() => setSuggestOpen(true)}
         />
-        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search" disabled={q.length === 0}>
-          <SearchIcon />
-        </IconButton>
+        <VoiceInput setQ={setQ} voiceInput={voiceInput} setVoiceInput={setVoiceInput} setFocus={setFocus} />
       </Box>
       {suggestions.length > 0 &&
         <Stack sx={{ m: 1, textAlign: 'start', display: suggestOpen ? 'contents' : 'none' }}>
           <Divider />
           <List >
-            {suggestions?.sort((a, b) => b.t - a.t).map((x, i) => (
-              <Stack direction={'row'} key={i} >
-                <ListItem button dense onMouseDown={(e) => onSuggestionClick(e, x.q)}>
-                  <ListItemText>{x.q}</ListItemText>
-                </ListItem>
-                <IconButton aria-label="delete" size='small' onMouseDown={(e) => onSuggestionDeleteClick(e, x.q)}>
-                  <DeleteForeverIcon />
-                </IconButton>
-              </Stack>
-            ))}
+            <TransitionGroup>
+              {suggestions?.sort((a, b) => b.t - a.t).map(x => (
+                <Collapse key={x.q}>
+                  <Stack direction={'row'} >
+                    <ListItem button dense onMouseDown={(e) => onSuggestionClick(e, x.q)}>
+                      <ListItemText>{x.q}</ListItemText>
+                    </ListItem>
+                    <IconButton aria-label="delete" size='small' onMouseDown={(e) => onSuggestionDeleteClick(e, x.q)}>
+                      <DeleteForeverIcon />
+                    </IconButton>
+                  </Stack>
+                </Collapse>
+              ))}
+            </TransitionGroup>
           </List>
         </Stack>
       }
-      <Drawer anchor={'bottom'} open={voiceInput} onClose={() => setVoiceInput(false)}>
+      <Drawer PaperProps={{ sx: { height: '30vh', justifyContent: 'center' } }} anchor={'bottom'} open={voiceInput} onClose={() => setVoiceInput(false)}>
         <Siriwave
           color={theme.palette.primary.main}
           cover={true}
           speed={0.075}
           ratio={1}
-          amplitude={0.75}
+          amplitude={1}
         />
       </Drawer>
-    </Paper>
+    </Paper >
   );
 }

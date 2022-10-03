@@ -15,7 +15,7 @@ export default function SearchResult() {
   const [searchParams] = useSearchParams();
   const location = useLocation();
 
-  const q = location.state['q'] || searchParams.get('q');
+  const q = location.state?.q || searchParams.get('q');
   const qHistory = JSON.parse(localStorage.qHistory || '[]');
   localStorage.qHistory = JSON.stringify([...qHistory.filter(x => x.q !== q), { q, t: dayjs().unix() }]);
 
