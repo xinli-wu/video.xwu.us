@@ -6,35 +6,63 @@ const hasGetUserMedia = () => {
   return !!(navigator.mediaDevices.getUserMedia);
 };
 
-export default function VoiceInput({ setQ, voiceInput, setVoiceInput, setFocus }) {
+export default function VoiceInput({ setQ, setInterimTranscript, voiceInput, setVoiceInput, setFocus }) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition = useMemo(() => new SpeechRecognition() || null, [SpeechRecognition]);
+
   if (!SpeechRecognition) console.log("Speech Recognition Not Available");
 
   recognition.continuous = true;
   recognition.interimResults = true;
 
   recognition.onstart = () => {
+    // console.log('onstart');
     setVoiceInput(true);
   };
 
-  recognition.onspeechend = () => {
-    recognition.stop();
+  // recognition.onspeechstart = () => {
+  //   console.log('onspeechstart');
+  // };
+
+  // recognition.onspeechend = () => {
+  //   console.log('onspeechend');
+  // };
+
+
+  // recognition.onaudiostart = () => {
+  //   console.log('onaudiostart');
+  // };
+
+  // recognition.onaudioend = () => {
+  //   console.log('onaudioend');
+  // };
+
+  recognition.onend = () => {
+    // console.log('onend');
+    setFocus();
     setVoiceInput(false);
   };
+  // recognition.onsoundstart = () => {
+  //   console.log('onsoundstart');
+  // };
+  // recognition.onsoundend = () => {
+  //   console.log('onsoundend');
+  // };
 
   recognition.onresult = (event) => {
-    let final_transcript = '';//, interim_transcript = '';
+    let final_transcript = '', interim_transcript = '';
     for (let i = event.resultIndex; i < event.results.length; ++i) {
       if (event.results[i].isFinal) {
         final_transcript += event.results[i][0].transcript;
+        recognition.stop();
+        setQ(final_transcript);
+        setInterimTranscript('');
+        return;
       } else {
-        // interim_transcript += event.results[i][0].transcript;
+        interim_transcript += event.results[i][0].transcript;
+        setInterimTranscript(interim_transcript + ' ...');
       }
     }
-    setQ(final_transcript);
-    setFocus();
-    setVoiceInput(false);
   };
 
   const startRecording = () => {
@@ -45,9 +73,7 @@ export default function VoiceInput({ setQ, voiceInput, setVoiceInput, setFocus }
   };
 
   useEffect(() => {
-    if (!voiceInput) {
-      recognition.stop();
-    }
+    if (!voiceInput) recognition.stop();
   }, [voiceInput, recognition]);
 
   return (
@@ -55,9 +81,6 @@ export default function VoiceInput({ setQ, voiceInput, setVoiceInput, setFocus }
       <IconButton aria-label="voice" size='small' onMouseUp={startRecording} disabled={voiceInput}>
         <MicIcon />
       </IconButton>
-      {/* <audio src="" controls ref={audioRef}>
-        Your browser does not support the audio element.
-      </audio> */}
     </>
   );
 };

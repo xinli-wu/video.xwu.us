@@ -1,6 +1,6 @@
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Collapse, Divider, Drawer, List, ListItem, ListItemText, Paper, Stack, useTheme } from '@mui/material';
+import { Box, Collapse, Divider, Drawer, List, ListItem, ListItemText, Paper, Stack, Typography, useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import dayjs from 'dayjs';
@@ -15,6 +15,7 @@ export default function SearchBox() {
   const theme = useTheme();
   const [searchParams] = useSearchParams();
   const [q, setQ] = useState(searchParams.get('q') || '');
+  const [interimTranscript, setInterimTranscript] = useState();
   const [suggestions, setSuggestions] = useState(JSON.parse(localStorage.qHistory || '[]'));
   const [suggestOpen, setSuggestOpen] = useState(false);
   const [voiceInput, setVoiceInput] = useState(false);
@@ -25,7 +26,6 @@ export default function SearchBox() {
       inputElement.current.children[0].focus();
     }
   };
-
 
   useEffect(() => {
     localStorage.qHistory = JSON.stringify(suggestions);
@@ -85,7 +85,7 @@ export default function SearchBox() {
           onBlur={onSearchBoxBlur}
           onClick={() => setSuggestOpen(true)}
         />
-        <VoiceInput setQ={setQ} voiceInput={voiceInput} setVoiceInput={setVoiceInput} setFocus={setFocus} />
+        <VoiceInput setQ={setQ} setInterimTranscript={setInterimTranscript} voiceInput={voiceInput} setVoiceInput={setVoiceInput} setFocus={setFocus} />
       </Box>
       {suggestions.length > 0 &&
         <Stack sx={{ m: 1, textAlign: 'start', display: suggestOpen ? 'contents' : 'none' }}>
@@ -109,6 +109,7 @@ export default function SearchBox() {
         </Stack>
       }
       <Drawer PaperProps={{ sx: { height: '30vh', justifyContent: 'center' } }} anchor={'bottom'} open={voiceInput} onClose={() => setVoiceInput(false)}>
+        <Typography sx={{ textAlign: 'center' }}><i>{interimTranscript}</i></Typography>
         <Siriwave
           color={theme.palette.primary.main}
           cover={true}
