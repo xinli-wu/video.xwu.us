@@ -9,6 +9,7 @@ import { createSearchParams, useNavigate, useSearchParams } from 'react-router-d
 import Siriwave from 'react-siriwave';
 import { TransitionGroup } from 'react-transition-group';
 import VoiceInputIconBtn from './VoiceInputIconBtn';
+import { ClickAwayListener } from '@mui/base';
 
 export default function SearchBox() {
   const navigate = useNavigate();
@@ -68,65 +69,73 @@ export default function SearchBox() {
     setSuggestions(prev => ([...prev.filter(x => x.q !== q)]));
   };
 
+  const onSiriwaveClickAway = () => {
+    if (voiceInput) setVoiceInput(false);
+  };
+
   return (
-    <Paper component="form" sx={{ m: 2 }} onSubmit={onQSubmit}>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search" disabled={q.length === 0}>
-          <SearchIcon />
-        </IconButton>
-        <InputBase
-          ref={inputElement}
-          sx={{ ml: 1 }}
-          fullWidth
-          placeholder="Search YouTube Videos"
-          inputProps={{ 'aria-label': 'search youtube videos' }}
-          value={voiceInput ? interimTranscript : q}
-          onChange={onInputChange}
-          onBlur={onSearchBoxBlur}
-          onClick={() => setSuggestOpen(true)}
-          componentsProps={{
-            input: {
-              style: { fontStyle: voiceInput ? 'italic' : 'normal', color: voiceInput ? theme.palette.grey[400] : theme.palette.text.primary },
-            }
-          }}
-        />
-        <VoiceInputIconBtn setQ={setQ} setInterimTranscript={setInterimTranscript} voiceInput={voiceInput} setVoiceInput={setVoiceInput} setFocus={setFocus} />
-      </Box>
-      <Collapse in={voiceInput}>
-        <Divider />
-        {/* <Typography sx={{ textAlign: 'center', minHeight: 25, visibility: interimTranscript ? 'visible' : 'hidden' }}><i>{interimTranscript}</i></Typography> */}
-        <Siriwave
-          color={theme.palette.primary.main}
-          cover={true}
-          speed={0.075}
-          ratio={1}
-          amplitude={0.5}
-        />
-      </Collapse>
-      {suggestions.length > 0 &&
-        <Collapse in={suggestOpen}>
-          <Stack sx={{ m: 0.25, textAlign: 'start' }}>
+    <ClickAwayListener onClickAway={onSiriwaveClickAway}>
+      <Paper component="form" sx={{ m: 2 }} onSubmit={onQSubmit}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton type="submit" sx={{ p: '10px' }} aria-label="search" disabled={q.length === 0}>
+            <SearchIcon />
+          </IconButton>
+          <InputBase
+            ref={inputElement}
+            sx={{ ml: 1 }}
+            fullWidth
+            placeholder="Search YouTube Videos"
+            inputProps={{ 'aria-label': 'search youtube videos' }}
+            value={voiceInput ? interimTranscript : q}
+            onChange={onInputChange}
+            onBlur={onSearchBoxBlur}
+            onClick={() => setSuggestOpen(true)}
+            componentsProps={{
+              input: {
+                style: { fontStyle: voiceInput ? 'italic' : 'normal', color: voiceInput ? theme.palette.grey[400] : theme.palette.text.primary },
+              }
+            }}
+          />
+          <VoiceInputIconBtn setQ={setQ} setInterimTranscript={setInterimTranscript} voiceInput={voiceInput} setVoiceInput={setVoiceInput} setFocus={setFocus} />
+        </Box>
+        <Collapse in={voiceInput}>
+          <>
             <Divider />
-            <List >
-              <TransitionGroup>
-                {suggestions?.sort((a, b) => b.t - a.t).map(({ q }) => (
-                  <Collapse key={q}>
-                    <Stack direction={'row'} >
-                      <ListItem button dense onMouseDown={(e) => onSuggestionClick(e, q)}>
-                        <ListItemText>{q}</ListItemText>
-                      </ListItem>
-                      <IconButton aria-label="delete" size='small' onMouseDown={(e) => onSuggestionDeleteClick(e, q)}>
-                        <ClearIcon />
-                      </IconButton>
-                    </Stack>
-                  </Collapse>
-                ))}
-              </TransitionGroup>
-            </List>
-          </Stack>
+            {/* <Typography sx={{ textAlign: 'center', minHeight: 25, visibility: interimTranscript ? 'visible' : 'hidden' }}><i>{interimTranscript}</i></Typography> */}
+            <Siriwave
+              height={200}
+              color={theme.palette.primary.main}
+              cover={true}
+              speed={0.075}
+              ratio={1}
+              amplitude={0.5}
+            />
+          </>
         </Collapse>
-      }
-      {/* <Drawer PaperProps={{ sx: { height: '30vh', justifyContent: 'center' } }} anchor={'bottom'} open={voiceInput} onClose={() => setVoiceInput(false)}>
+        {suggestions.length > 0 &&
+          <Collapse in={suggestOpen}>
+            <Stack sx={{ m: 0.25, textAlign: 'start' }}>
+              <Divider />
+              <List >
+                <TransitionGroup>
+                  {suggestions?.sort((a, b) => b.t - a.t).map(({ q }) => (
+                    <Collapse key={q}>
+                      <Stack direction={'row'} >
+                        <ListItem button dense onMouseDown={(e) => onSuggestionClick(e, q)}>
+                          <ListItemText>{q}</ListItemText>
+                        </ListItem>
+                        <IconButton aria-label="delete" size='small' onMouseDown={(e) => onSuggestionDeleteClick(e, q)}>
+                          <ClearIcon />
+                        </IconButton>
+                      </Stack>
+                    </Collapse>
+                  ))}
+                </TransitionGroup>
+              </List>
+            </Stack>
+          </Collapse>
+        }
+        {/* <Drawer PaperProps={{ sx: { height: '30vh', justifyContent: 'center' } }} anchor={'bottom'} open={voiceInput} onClose={() => setVoiceInput(false)}>
         <Typography sx={{ textAlign: 'center' }}><i>{interimTranscript}</i></Typography>
         <Siriwave
           color={theme.palette.primary.main}
@@ -136,6 +145,8 @@ export default function SearchBox() {
           amplitude={0.5}
         />
       </Drawer> */}
-    </Paper >
+      </Paper >
+    </ClickAwayListener>
+
   );
 }
