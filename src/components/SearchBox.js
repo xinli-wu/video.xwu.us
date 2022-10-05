@@ -1,21 +1,21 @@
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Collapse, Divider, Drawer, List, ListItem, ListItemText, Paper, Stack, Typography, useTheme } from '@mui/material';
+import { Box, Collapse, Divider, List, ListItem, ListItemText, Paper, Stack, useTheme } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import dayjs from 'dayjs';
 import React, { useEffect, useRef, useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import Siriwave from 'react-siriwave';
-import VoiceInput from './VoiceInput';
 import { TransitionGroup } from 'react-transition-group';
+import VoiceInputIconBtn from './VoiceInputIconBtn';
 
 export default function SearchBox() {
   const navigate = useNavigate();
   const theme = useTheme();
   const [searchParams] = useSearchParams();
   const [q, setQ] = useState(searchParams.get('q') || '');
-  const [interimTranscript, setInterimTranscript] = useState();
+  const [interimTranscript, setInterimTranscript] = useState('');
   const [suggestions, setSuggestions] = useState(JSON.parse(localStorage.qHistory || '[]'));
   const [suggestOpen, setSuggestOpen] = useState(false);
   const [voiceInput, setVoiceInput] = useState(false);
@@ -80,35 +80,53 @@ export default function SearchBox() {
           fullWidth
           placeholder="Search YouTube Videos"
           inputProps={{ 'aria-label': 'search youtube videos' }}
-          value={q}
+          value={voiceInput ? interimTranscript : q}
           onChange={onInputChange}
           onBlur={onSearchBoxBlur}
           onClick={() => setSuggestOpen(true)}
+          componentsProps={{
+            input: {
+              style: { fontStyle: voiceInput ? 'italic' : 'normal', color: voiceInput ? theme.palette.grey[400] : theme.palette.text.primary },
+            }
+          }}
         />
-        <VoiceInput setQ={setQ} setInterimTranscript={setInterimTranscript} voiceInput={voiceInput} setVoiceInput={setVoiceInput} setFocus={setFocus} />
+        <VoiceInputIconBtn setQ={setQ} setInterimTranscript={setInterimTranscript} voiceInput={voiceInput} setVoiceInput={setVoiceInput} setFocus={setFocus} />
       </Box>
+      <Collapse in={voiceInput}>
+        <Divider />
+        {/* <Typography sx={{ textAlign: 'center', minHeight: 25, visibility: interimTranscript ? 'visible' : 'hidden' }}><i>{interimTranscript}</i></Typography> */}
+        <Siriwave
+          color={theme.palette.primary.main}
+          cover={true}
+          speed={0.075}
+          ratio={1}
+          amplitude={0.5}
+        />
+      </Collapse>
       {suggestions.length > 0 &&
-        <Stack sx={{ m: 1, textAlign: 'start', display: suggestOpen ? 'contents' : 'none' }}>
-          <Divider />
-          <List >
-            <TransitionGroup>
-              {suggestions?.sort((a, b) => b.t - a.t).map(x => (
-                <Collapse key={x.q}>
-                  <Stack direction={'row'} >
-                    <ListItem button dense onMouseDown={(e) => onSuggestionClick(e, x.q)}>
-                      <ListItemText>{x.q}</ListItemText>
-                    </ListItem>
-                    <IconButton aria-label="delete" size='small' onMouseDown={(e) => onSuggestionDeleteClick(e, x.q)}>
-                      <DeleteForeverIcon />
-                    </IconButton>
-                  </Stack>
-                </Collapse>
-              ))}
-            </TransitionGroup>
-          </List>
-        </Stack>
+        <Collapse in={suggestOpen}>
+          <Stack sx={{ m: 0.25, textAlign: 'start' }}>
+            <Divider />
+            <List >
+              <TransitionGroup>
+                {suggestions?.sort((a, b) => b.t - a.t).map(({ q }) => (
+                  <Collapse key={q}>
+                    <Stack direction={'row'} >
+                      <ListItem button dense onMouseDown={(e) => onSuggestionClick(e, q)}>
+                        <ListItemText>{q}</ListItemText>
+                      </ListItem>
+                      <IconButton aria-label="delete" size='small' onMouseDown={(e) => onSuggestionDeleteClick(e, q)}>
+                        <ClearIcon />
+                      </IconButton>
+                    </Stack>
+                  </Collapse>
+                ))}
+              </TransitionGroup>
+            </List>
+          </Stack>
+        </Collapse>
       }
-      <Drawer PaperProps={{ sx: { height: '30vh', justifyContent: 'center' } }} anchor={'bottom'} open={voiceInput} onClose={() => setVoiceInput(false)}>
+      {/* <Drawer PaperProps={{ sx: { height: '30vh', justifyContent: 'center' } }} anchor={'bottom'} open={voiceInput} onClose={() => setVoiceInput(false)}>
         <Typography sx={{ textAlign: 'center' }}><i>{interimTranscript}</i></Typography>
         <Siriwave
           color={theme.palette.primary.main}
@@ -117,7 +135,7 @@ export default function SearchBox() {
           ratio={1}
           amplitude={0.5}
         />
-      </Drawer>
+      </Drawer> */}
     </Paper >
   );
 }

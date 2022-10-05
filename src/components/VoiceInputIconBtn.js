@@ -6,7 +6,7 @@ const hasGetUserMedia = () => {
   return !!(navigator.mediaDevices.getUserMedia);
 };
 
-export default function VoiceInput({ setQ, setInterimTranscript, voiceInput, setVoiceInput, setFocus }) {
+export default function VoiceInputIconBtn({ setQ, setInterimTranscript, voiceInput, setVoiceInput, setFocus }) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition = useMemo(() => new SpeechRecognition() || null, [SpeechRecognition]);
 
@@ -41,6 +41,7 @@ export default function VoiceInput({ setQ, setInterimTranscript, voiceInput, set
     // console.log('onend');
     setFocus();
     setVoiceInput(false);
+    setInterimTranscript('');
   };
   // recognition.onsoundstart = () => {
   //   console.log('onsoundstart');
@@ -56,19 +57,22 @@ export default function VoiceInput({ setQ, setInterimTranscript, voiceInput, set
         final_transcript += event.results[i][0].transcript;
         recognition.stop();
         setQ(final_transcript);
-        setInterimTranscript('');
         return;
       } else {
         interim_transcript += event.results[i][0].transcript;
-        setInterimTranscript(interim_transcript + ' ...');
+        setInterimTranscript(interim_transcript + '...');
       }
     }
   };
 
-  const startRecording = () => {
-    setVoiceInput(true);
-    if (hasGetUserMedia() && !voiceInput) {
-      recognition.start();
+  const toggleRecording = () => {
+    if (voiceInput) {
+      setVoiceInput(false);
+    } else {
+      setVoiceInput(true);
+      if (hasGetUserMedia() && !voiceInput) {
+        recognition.start();
+      }
     }
   };
 
@@ -77,10 +81,8 @@ export default function VoiceInput({ setQ, setInterimTranscript, voiceInput, set
   }, [voiceInput, recognition]);
 
   return (
-    <>
-      <IconButton aria-label="voice" size='small' onMouseUp={startRecording} disabled={voiceInput}>
-        <MicIcon />
-      </IconButton>
-    </>
+    <IconButton aria-label="voice" size='small' onClick={toggleRecording}>
+      <MicIcon />
+    </IconButton>
   );
 };
