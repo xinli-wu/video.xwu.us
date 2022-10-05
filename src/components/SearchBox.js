@@ -1,3 +1,4 @@
+import { ClickAwayListener } from '@mui/base';
 import ClearIcon from '@mui/icons-material/Clear';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Collapse, Divider, List, ListItem, ListItemText, Paper, Stack, useTheme } from '@mui/material';
@@ -8,8 +9,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createSearchParams, useNavigate, useSearchParams } from 'react-router-dom';
 import Siriwave from 'react-siriwave';
 import { TransitionGroup } from 'react-transition-group';
-import VoiceInputIconBtn from './VoiceInputIconBtn';
-import { ClickAwayListener } from '@mui/base';
+import VoiceInput from './VoiceInput';
 
 export default function SearchBox() {
   const navigate = useNavigate();
@@ -96,7 +96,7 @@ export default function SearchBox() {
               }
             }}
           />
-          <VoiceInputIconBtn setQ={setQ} setInterimTranscript={setInterimTranscript} voiceInput={voiceInput} setVoiceInput={setVoiceInput} setFocus={setFocus} />
+          <VoiceInput setQ={setQ} setInterimTranscript={setInterimTranscript} voiceInput={voiceInput} setVoiceInput={setVoiceInput} setFocus={setFocus} />
         </Box>
         <Collapse in={voiceInput}>
           <>
@@ -116,7 +116,7 @@ export default function SearchBox() {
           <Collapse in={suggestOpen}>
             <Stack sx={{ m: 0.25, textAlign: 'start' }}>
               <Divider />
-              <List >
+              <List>
                 <TransitionGroup>
                   {suggestions?.sort((a, b) => b.t - a.t).map(({ q }) => (
                     <Collapse key={q}>

@@ -6,6 +6,8 @@ const hasGetUserMedia = () => {
   return !!(navigator.mediaDevices.getUserMedia);
 };
 
+
+
 export default function VoiceInputIconBtn({ setQ, setInterimTranscript, voiceInput, setVoiceInput, setFocus }) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition = useMemo(() => new SpeechRecognition() || null, [SpeechRecognition]);
@@ -50,16 +52,16 @@ export default function VoiceInputIconBtn({ setQ, setInterimTranscript, voiceInp
   //   console.log('onsoundend');
   // };
 
-  recognition.onresult = (event) => {
+  recognition.onresult = (e) => {
     let final_transcript = '', interim_transcript = '';
-    for (let i = event.resultIndex; i < event.results.length; ++i) {
-      if (event.results[i].isFinal) {
-        final_transcript += event.results[i][0].transcript;
+    for (let i = e.resultIndex; i < e.results.length; ++i) {
+      if (e.results[i].isFinal) {
+        final_transcript += e.results[i][0].transcript;
         recognition.stop();
         setQ(final_transcript);
         return;
       } else {
-        interim_transcript += event.results[i][0].transcript;
+        interim_transcript += e.results[i][0].transcript;
         setInterimTranscript(interim_transcript + '...');
       }
     }
