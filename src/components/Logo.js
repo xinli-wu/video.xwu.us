@@ -14,7 +14,7 @@ export default function Logo() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const altLogo = Math.floor(Math.random() * 2);
+  const altLogo = 1;// Math.floor(Math.random() * 2);
   const theme = useTheme();
   const mode = theme.palette.mode;
 
