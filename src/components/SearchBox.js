@@ -113,7 +113,7 @@ export default function SearchBox() {
           </>
         </Collapse>
         {suggestions.length > 0 &&
-          <Collapse in={suggestOpen}>
+          <Collapse in={suggestOpen} timeout={150}>
             <Stack sx={{ m: 0.25, textAlign: 'start' }}>
               <Divider />
               <List>
