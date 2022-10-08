@@ -18,7 +18,7 @@ export const NativeVideo = ({ v, title, poster }) => {
   React.useEffect(() => {
     (async () => {
       setFormat({ data: undefined, loading: true });
-      const { data } = await axios(`${SERVER_URL}/format`, { params: { v } });
+      const { data } = await axios(`${SERVER_URL}/format`, { params: { v } }).catch(() => setFormat({ data: [], loading: false }));
       setFormat({ data, loading: false });
     })();
   }, [v]);

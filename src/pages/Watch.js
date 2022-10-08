@@ -17,11 +17,10 @@ export default function Watch() {
   React.useEffect(() => {
     (async () => {
       setInfo({ data: undefined, loading: true });
-      const { data } = await axios(`${SERVER_URL}/info`, { params: { v } });
+      const { data } = await axios(`${SERVER_URL}/info`, { params: { v } }).catch(() => setInfo({ data: [], loading: false }));;
       setInfo({ data, loading: false });
 
       document.title = data.videoDetails.title;
-
     })();
   }, [v]);
 

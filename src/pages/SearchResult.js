@@ -23,7 +23,7 @@ export default function SearchResult() {
     (async () => {
       document.title = 'search: ' + q;
       setVideos({ data: [], loading: true });
-      const { data } = await axios(`${SERVER_URL}/search`, { params: { q } });
+      const { data } = await axios(`${SERVER_URL}/search`, { params: { q } }).catch(() => setVideos({ data: [], loading: false }));
       setVideos({ data, loading: false });
     })();
   }, [q]);
