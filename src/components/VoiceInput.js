@@ -8,7 +8,7 @@ const hasGetUserMedia = () => {
 
 
 
-export default function VoiceInputIconBtn({ setQ, setInterimTranscript, voiceInput, setVoiceInput, setFocus }) {
+export default function VoiceInputIconBtn({ setQ, setInterimTranscript, voiceInput, setVoiceInput }) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   let recognition = useMemo(() => new SpeechRecognition() || null, [SpeechRecognition]);
 
@@ -41,9 +41,9 @@ export default function VoiceInputIconBtn({ setQ, setInterimTranscript, voiceInp
 
   recognition.onend = () => {
     // console.log('onend');
-    setFocus();
     setVoiceInput(false);
     setInterimTranscript('');
+    // setFocus();
   };
   // recognition.onsoundstart = () => {
   //   console.log('onsoundstart');
@@ -78,12 +78,15 @@ export default function VoiceInputIconBtn({ setQ, setInterimTranscript, voiceInp
     }
   };
 
+
+
   useEffect(() => {
     if (!voiceInput) recognition.stop();
   }, [voiceInput, recognition]);
 
   return (
     <IconButton aria-label="voice" size='small' onClick={toggleRecording}>
+      {console.log('render')}
       <MicIcon />
     </IconButton>
   );

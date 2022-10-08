@@ -22,11 +22,11 @@ export default function SearchBox() {
   const [voiceInput, setVoiceInput] = useState(false);
   const inputElement = useRef(null);
 
-  const setFocus = () => {
+  useEffect(() => {
     if (inputElement.current) {
       inputElement.current.children[0].focus();
     }
-  };
+  });
 
   useEffect(() => {
     localStorage.qHistory = JSON.stringify(suggestions);
@@ -83,34 +83,37 @@ export default function SearchBox() {
           <InputBase
             ref={inputElement}
             sx={{ ml: 1 }}
+            disabled={voiceInput}
             fullWidth
             placeholder="Search YouTube Videos"
             inputProps={{ 'aria-label': 'search youtube videos' }}
             value={voiceInput ? interimTranscript : q}
             onChange={onInputChange}
             onBlur={onSearchBoxBlur}
-            onClick={() => setSuggestOpen(true)}
+            onClick={() => !voiceInput ? setSuggestOpen(true) : null}
             componentsProps={{
               input: {
                 style: { fontStyle: voiceInput ? 'italic' : 'normal', color: voiceInput ? theme.palette.grey[400] : theme.palette.text.primary },
               }
             }}
           />
-          <VoiceInput setQ={setQ} setInterimTranscript={setInterimTranscript} voiceInput={voiceInput} setVoiceInput={setVoiceInput} setFocus={setFocus} />
+          <VoiceInput setQ={setQ} setInterimTranscript={setInterimTranscript} voiceInput={voiceInput} setVoiceInput={setVoiceInput} />
         </Box>
         <Collapse in={voiceInput}>
-          <>
-            <Divider />
-            {/* <Typography sx={{ textAlign: 'center', minHeight: 25, visibility: interimTranscript ? 'visible' : 'hidden' }}><i>{interimTranscript}</i></Typography> */}
-            <Siriwave
-              height={200}
-              color={theme.palette.primary.main}
-              cover={true}
-              speed={0.075}
-              ratio={1}
-              amplitude={0.5}
-            />
-          </>
+          <Divider />
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <div style={{ maxWidth: 500 }}>
+              {/* <Typography sx={{ textAlign: 'center', minHeight: 25, visibility: interimTranscript ? 'visible' : 'hidden' }}><i>{interimTranscript}</i></Typography> */}
+              <Siriwave
+                height={200}
+                color={theme.palette.primary.main}
+                cover={true}
+                speed={0.075}
+                ratio={1}
+                amplitude={0.5}
+              />
+            </div>
+          </div>
         </Collapse>
         {suggestions.length > 0 &&
           <Collapse in={suggestOpen} timeout={150}>
@@ -146,7 +149,7 @@ export default function SearchBox() {
         />
       </Drawer> */}
       </Paper >
-    </ClickAwayListener>
+    </ClickAwayListener >
 
   );
 }
