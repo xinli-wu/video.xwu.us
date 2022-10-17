@@ -1,5 +1,9 @@
 lockfileVersion: 5.4
 
+overrides:
+  nth-check@<2.0.1: '>=2.0.1'
+  '@xmldom/xmldom@<0.8.3': '>=0.8.3'
+
 specifiers:
   '@emotion/react': ^11.10.4
   '@emotion/styled': ^11.10.4
@@ -3157,8 +3161,8 @@ packages:
       '@xtuc/long': 4.2.2
     dev: false
 
-  /@xmldom/xmldom/0.7.6:
-    resolution: {integrity: sha512-HHXP9hskkFQHy8QxxUXkS7946FFIhYVfGqsk0WLwllmexN9x/+R4UBLvurHEuyXRfVEObVR8APuQehykLviwSQ==}
+  /@xmldom/xmldom/0.8.3:
+    resolution: {integrity: sha512-Lv2vySXypg4nfa51LY1nU8yDAGo/5YwF+EY/rUZgIbfvwVARcd67ttCM8SMsTeJy51YhHYavEq+FS6R0hW9PFQ==}
     engines: {node: '>=10.0.0'}
     dev: false
 
@@ -4226,7 +4230,7 @@ packages:
       boolbase: 1.0.0
       css-what: 3.4.2
       domutils: 1.7.0
-      nth-check: 1.0.2
+      nth-check: 2.1.1
     dev: false
 
   /css-select/4.3.0:
@@ -7279,7 +7283,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.19.4
       '@videojs/vhs-utils': 3.0.5
-      '@xmldom/xmldom': 0.7.6
+      '@xmldom/xmldom': 0.8.3
       global: 4.4.0
     dev: false
 
@@ -7371,12 +7375,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       path-key: 3.1.1
-    dev: false
-
-  /nth-check/1.0.2:
-    resolution: {integrity: sha512-WeBOdju8SnzPN5vTUJYxYUxLeXpCaVP5i5e0LF8fg7WORF2Wd7wFX/pk0tYZk7s8T+J7VLy0Da6J1+wCT0AtHg==}
-    dependencies:
-      boolbase: 1.0.0
     dev: false
 
   /nth-check/2.1.1:
