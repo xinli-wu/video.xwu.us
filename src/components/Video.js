@@ -31,7 +31,6 @@ export default function Video({ v, title, poster }) {
     (async () => {
       setFormat({ data: undefined, loading: true });
       const { data } = await axios(`${SERVER_URL}/format`, { signal: controller.signal, params: { v } });
-
       setVideoJsOptions({
         autoplay: false,
         controls: true,

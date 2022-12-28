@@ -36,9 +36,9 @@ export const NativeVideo = ({ v, title, poster }) => {
   };
 
   return (
-    <Box>
+    <Box sx={{ m: 2 }}>
       <LoadingProgress show={format.loading} />
-      <Paper sx={{ alignItems: 'center', minHeight: 220, width: '100%', borderRadius: '4px 4px 0px 0px', overflow: 'hidden' }} >
+      <Paper sx={{ alignItems: 'center', minHeight: 220, width: '100%', borderRadius: '4px 4px 4px 4px', overflow: 'hidden' }} >
         {format.data && (
           <video style={{ width: '100%', borderRadius: '4px 4px 0px 0px' }} controls poster={poster} preload="none" controlsList="nodownload">
             <source src={`${SERVER_URL}/watch?v=${v}`} type={format.data.mimeType} />
