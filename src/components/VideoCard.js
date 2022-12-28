@@ -16,11 +16,15 @@ export const VideoCard = ({ v, title, poster }) => {
   const [format, setFormat] = React.useState({ data: undefined, loading: false });
 
   React.useEffect(() => {
+    const controller = new AbortController();
+
     (async () => {
       setFormat({ data: undefined, loading: true });
-      const { data } = await axios(`${SERVER_URL}/format`, { params: { v } });
+      const { data } = await axios(`${SERVER_URL}/format`, { signal: controller.signal, params: { v } });
       setFormat({ data, loading: false });
     })();
+
+    return () => controller.abort();
   }, [v]);
 
   const onTitleClick = (e) => {

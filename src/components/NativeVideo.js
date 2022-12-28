@@ -9,18 +9,22 @@ import { SERVER_URL } from '../config';
 
 window.HELP_IMPROVE_VIDEOJS = false;
 
-
 export const NativeVideo = ({ v, title, poster }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [format, setFormat] = React.useState({ data: undefined, loading: false });
 
   React.useEffect(() => {
+    const controller = new AbortController();
+
     (async () => {
       setFormat({ data: undefined, loading: true });
-      const { data } = await axios(`${SERVER_URL}/format`, { params: { v } }).catch(() => setFormat({ data: [], loading: false }));
+      const { data } = await axios(`${SERVER_URL}/format`, { signal: controller.signal, params: { v } })
+        .catch(() => setFormat({ data: [], loading: false })) || {};
       setFormat({ data, loading: false });
     })();
+
+    return () => controller.abort();
   }, [v]);
 
   const onTitleClick = (e) => {

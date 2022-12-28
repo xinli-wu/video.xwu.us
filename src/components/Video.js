@@ -26,9 +26,11 @@ export default function Video({ v, title, poster }) {
   }, [width]);
 
   React.useEffect(() => {
+    const controller = new AbortController();
+
     (async () => {
       setFormat({ data: undefined, loading: true });
-      const { data } = await axios(`${SERVER_URL}/format`, { params: { v } });
+      const { data } = await axios(`${SERVER_URL}/format`, { signal: controller.signal, params: { v } });
 
       setVideoJsOptions({
         autoplay: false,
@@ -44,6 +46,9 @@ export default function Video({ v, title, poster }) {
 
       setFormat({ data, loading: false });
     })();
+
+    return () => controller.abort();
+
   }, [v, poster]);
 
   const onTitleClick = (e) => {

@@ -20,12 +20,17 @@ export default function SearchResult() {
   localStorage.qHistory = JSON.stringify([...qHistory.filter(x => x.q !== q), { q, t: dayjs().unix() }]);
 
   React.useEffect(() => {
+    const controller = new AbortController();
+
     (async () => {
       document.title = 'search: ' + q;
       setVideos({ data: [], loading: true });
-      const { data } = await axios(`${SERVER_URL}/search`, { params: { q } }).catch(() => setVideos({ data: [], loading: false }));
+      const { data } = await axios(`${SERVER_URL}/search`, { signal: controller.signal, params: { q } })
+        .catch(() => setVideos({ data: [], loading: false })) || {};
       setVideos({ data, loading: false });
     })();
+
+    return () => controller.abort();
   }, [q]);
 
   return (

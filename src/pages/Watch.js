@@ -15,13 +15,18 @@ export default function Watch() {
   const [info, setInfo] = React.useState({ data: undefined, loading: false });
 
   React.useEffect(() => {
+    const controller = new AbortController();
+
     (async () => {
       setInfo({ data: undefined, loading: true });
-      const { data } = await axios(`${SERVER_URL}/info`, { params: { v } }).catch(() => setInfo({ data: [], loading: false }));;
+      const { data } = await axios(`${SERVER_URL}/info`, { signal: controller.signal, params: { v } })
+        .catch(() => setInfo({ data: [], loading: false })) || {};
       setInfo({ data, loading: false });
 
       document.title = data.videoDetails.title;
     })();
+
+    return () => controller.abort();
   }, [v]);
 
   return (
