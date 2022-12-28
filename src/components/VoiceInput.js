@@ -86,7 +86,6 @@ export default function VoiceInputIconBtn({ setQ, setInterimTranscript, voiceInp
 
   return (
     <IconButton aria-label="voice" size='small' onClick={toggleRecording}>
-      {console.log('render')}
       <MicIcon />
     </IconButton>
   );
